@@ -1,0 +1,35 @@
+{
+  "model": "demand_forecast",
+  "task": "rolling one-day-ahead units_sold regression",
+  "split": "chronological by date; earliest 80% of dates train, latest 20% test",
+  "train_rows": 1380,
+  "test_rows": 350,
+  "train_end": "2026-08-23",
+  "test_start": "2026-08-24",
+  "features": [
+    "product_id",
+    "category",
+    "opening_stock",
+    "units_received",
+    "unit_price",
+    "discount_pct",
+    "days_to_expiry",
+    "sales_lag_1",
+    "sales_lag_7",
+    "sales_mean_previous_7d",
+    "calendar_month",
+    "calendar_day_of_week",
+    "calendar_day_of_month",
+    "calendar_day_of_year"
+  ],
+  "test": {
+    "mae": 3.576221461586033,
+    "rmse": 4.503271616790121,
+    "r2": 0.7653979258848909
+  },
+  "seven_day_mean_baseline": {
+    "mae": 4.030612244897958,
+    "rmse": 5.245289431908385,
+    "r2": 0.6817162420050136
+  }
+}

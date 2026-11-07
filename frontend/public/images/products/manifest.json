@@ -1,0 +1,77 @@
+{
+  "source": "Wikimedia Commons",
+  "images": [
+    {
+      "productId": 3,
+      "productName": "Mangoes",
+      "file": "3-mangoes.jpg",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:A_bunch_of_mangoes_(9377759702).jpg",
+      "creator": "Devika",
+      "license": "CC BY-SA 2.0"
+    },
+    {
+      "productId": 4,
+      "productName": "Tomatoes",
+      "file": "4-tomatoes.jpg",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Organic_home-grown_tomatoes_-_unripe_to_ripe.jpg",
+      "creator": "Michal Klajban",
+      "license": "CC BY-SA 4.0"
+    },
+    {
+      "productId": 7,
+      "productName": "Carrots",
+      "file": "7-carrots.jpg",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Preparing_and_slicing_carrots.jpg",
+      "creator": "W.carter",
+      "license": "CC0"
+    },
+    {
+      "productId": 13,
+      "productName": "Watermelon",
+      "file": "13-watermelon.jpg",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:US_Navy_070404-N-7780S-003_Culinary_Specialist_Seaman_Travis_Rhinehart_carefully_carves_a_food_serving_line_showpiece_out_of_a_watermelon_for_the_afternoon_meal.jpg",
+      "creator": "U.S. Navy photo by Mass Communication Specialist Seaman Apprentice Kyle Steckler",
+      "license": "Public domain"
+    },
+    {
+      "productId": 14,
+      "productName": "Papaya",
+      "file": "14-papaya.jpg",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:0213jfCarica_papaya_food_and_cuisine_of_Bulacanfvf_02.jpg",
+      "creator": "Judgefloro",
+      "license": "CC0"
+    },
+    {
+      "productId": 23,
+      "productName": "Green Capsicum",
+      "file": "23-green-capsicum.jpg",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Green-Yellow-Red-Pepper-2009.jpg",
+      "creator": "Kham Tran",
+      "license": "CC BY-SA 3.0"
+    },
+    {
+      "productId": 25,
+      "productName": "Green Peas",
+      "file": "25-green-peas.jpg",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:India_-_Varanasi_green_peas_-_2714.jpg",
+      "creator": "Jorge Royan",
+      "license": "CC BY-SA 3.0"
+    },
+    {
+      "productId": 34,
+      "productName": "Toor Dal",
+      "file": "34-toor-dal.jpg",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Pigeon_Pea_(Toor_Dal)_(49683602388).jpg",
+      "creator": "Ajay Suresh",
+      "license": "CC BY 2.0"
+    },
+    {
+      "productId": 36,
+      "productName": "Sunflower Oil",
+      "file": "36-sunflower-oil.jpg",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Sunflower_oil_and_sunflower.jpg",
+      "creator": "torange.biz",
+      "license": "CC BY 4.0"
+    }
+  ]
+}

@@ -1,0 +1,27 @@
+{
+  "model": "discount_recommendation",
+  "task": "simulated gross-margin regression for discount scenarios",
+  "data_caveat": "Training outcomes are simulated and are not evidence of real customer price response.",
+  "split": "80/20 grouped by batch_id so scenarios from one batch cannot cross partitions",
+  "train_rows": 8000,
+  "test_rows": 2000,
+  "train_batches": 1600,
+  "test_batches": 400,
+  "features": [
+    "product_id",
+    "days_to_expiry",
+    "quantity_remaining",
+    "discount_pct"
+  ],
+  "target": "estimated_gross_margin_simulated",
+  "test": {
+    "mae": 38.42799600836633,
+    "rmse": 102.77085827840244,
+    "r2": 0.9370908236068731
+  },
+  "training_mean_baseline": {
+    "mae": 270.17538030000003,
+    "rmse": 409.962340103045,
+    "r2": -0.0010642666595135353
+  }
+}

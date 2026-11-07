@@ -1,0 +1,47 @@
+{
+  "model": "food_waste",
+  "task": "next-day target_waste_units regression",
+  "prediction_horizon": "one day",
+  "input_timing": "all observed features are from the preceding date; calendar features describe the target date",
+  "split": "chronological by target_date; earliest 80% of dates train, latest 20% test",
+  "train_rows": 1430,
+  "test_rows": 360,
+  "train_target_end": "2026-08-22",
+  "test_target_start": "2026-08-23",
+  "features": [
+    "previous_product_id",
+    "previous_category",
+    "previous_opening_stock",
+    "previous_units_received",
+    "previous_units_sold",
+    "previous_unit_price",
+    "previous_discount_pct",
+    "previous_days_to_expiry",
+    "previous_temperature_c",
+    "previous_stockout_flag",
+    "target_calendar_month",
+    "target_calendar_day_of_week",
+    "target_calendar_day_of_month",
+    "target_calendar_day_of_year"
+  ],
+  "excluded_target_columns": [
+    "waste_units",
+    "target_waste_units"
+  ],
+  "test_positive_waste_rate": 0.075,
+  "test": {
+    "mae": 3.148789634038801,
+    "rmse": 7.009896674467342,
+    "r2": -0.0559882103160807
+  },
+  "training_mean_baseline": {
+    "mae": 2.843589743589744,
+    "rmse": 6.827363053115024,
+    "r2": -0.0017095900939847475
+  },
+  "zero_waste_baseline": {
+    "mae": 1.6666666666666667,
+    "rmse": 7.022187060390168,
+    "r2": -0.05969436485195767
+  }
+}

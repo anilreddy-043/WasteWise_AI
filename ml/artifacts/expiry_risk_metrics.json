@@ -1,0 +1,41 @@
+{
+  "model": "expiry_risk",
+  "task": "expiry_risk_label binary classification",
+  "split": "chronological by snapshot_date; earliest 80% of dates train, latest 20% test",
+  "train_rows": 1865,
+  "test_rows": 135,
+  "train_end": "2026-10-06",
+  "test_start": "2026-10-07",
+  "features": [
+    "product_id",
+    "category",
+    "initial_quantity",
+    "quantity_remaining",
+    "days_to_expiry",
+    "avg_daily_sales_7d",
+    "expected_demand_before_expiry",
+    "unit_price",
+    "unit_cost",
+    "discount_pct",
+    "received_age_days",
+    "calendar_month",
+    "calendar_day_of_week",
+    "shelf_life_days"
+  ],
+  "excluded_columns": [
+    "batch_id",
+    "expiry_date",
+    "expiry_risk_label",
+    "received_at",
+    "snapshot_date",
+    "waste_units_actual_simulated"
+  ],
+  "test": {
+    "accuracy": 0.8814814814814815,
+    "balanced_accuracy": 0.8757478140819144,
+    "precision": 0.9024390243902439,
+    "recall": 0.9024390243902439,
+    "f1": 0.9024390243902439,
+    "roc_auc": 0.9422457432121492
+  }
+}

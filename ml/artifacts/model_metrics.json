@@ -1,0 +1,152 @@
+{
+  "demand_forecast": {
+    "model": "demand_forecast",
+    "task": "rolling one-day-ahead units_sold regression",
+    "split": "chronological by date; earliest 80% of dates train, latest 20% test",
+    "train_rows": 1380,
+    "test_rows": 350,
+    "train_end": "2026-08-23",
+    "test_start": "2026-08-24",
+    "features": [
+      "product_id",
+      "category",
+      "opening_stock",
+      "units_received",
+      "unit_price",
+      "discount_pct",
+      "days_to_expiry",
+      "sales_lag_1",
+      "sales_lag_7",
+      "sales_mean_previous_7d",
+      "calendar_month",
+      "calendar_day_of_week",
+      "calendar_day_of_month",
+      "calendar_day_of_year"
+    ],
+    "test": {
+      "mae": 3.576221461586033,
+      "rmse": 4.503271616790121,
+      "r2": 0.7653979258848909
+    },
+    "seven_day_mean_baseline": {
+      "mae": 4.030612244897958,
+      "rmse": 5.245289431908385,
+      "r2": 0.6817162420050136
+    }
+  },
+  "expiry_risk": {
+    "model": "expiry_risk",
+    "task": "expiry_risk_label binary classification",
+    "split": "chronological by snapshot_date; earliest 80% of dates train, latest 20% test",
+    "train_rows": 1865,
+    "test_rows": 135,
+    "train_end": "2026-10-06",
+    "test_start": "2026-10-07",
+    "features": [
+      "product_id",
+      "category",
+      "initial_quantity",
+      "quantity_remaining",
+      "days_to_expiry",
+      "avg_daily_sales_7d",
+      "expected_demand_before_expiry",
+      "unit_price",
+      "unit_cost",
+      "discount_pct",
+      "received_age_days",
+      "calendar_month",
+      "calendar_day_of_week",
+      "shelf_life_days"
+    ],
+    "excluded_columns": [
+      "batch_id",
+      "expiry_date",
+      "expiry_risk_label",
+      "received_at",
+      "snapshot_date",
+      "waste_units_actual_simulated"
+    ],
+    "test": {
+      "accuracy": 0.8814814814814815,
+      "balanced_accuracy": 0.8757478140819144,
+      "precision": 0.9024390243902439,
+      "recall": 0.9024390243902439,
+      "f1": 0.9024390243902439,
+      "roc_auc": 0.9422457432121492
+    }
+  },
+  "food_waste": {
+    "model": "food_waste",
+    "task": "next-day target_waste_units regression",
+    "prediction_horizon": "one day",
+    "input_timing": "all observed features are from the preceding date; calendar features describe the target date",
+    "split": "chronological by target_date; earliest 80% of dates train, latest 20% test",
+    "train_rows": 1430,
+    "test_rows": 360,
+    "train_target_end": "2026-08-22",
+    "test_target_start": "2026-08-23",
+    "features": [
+      "previous_product_id",
+      "previous_category",
+      "previous_opening_stock",
+      "previous_units_received",
+      "previous_units_sold",
+      "previous_unit_price",
+      "previous_discount_pct",
+      "previous_days_to_expiry",
+      "previous_temperature_c",
+      "previous_stockout_flag",
+      "target_calendar_month",
+      "target_calendar_day_of_week",
+      "target_calendar_day_of_month",
+      "target_calendar_day_of_year"
+    ],
+    "excluded_target_columns": [
+      "waste_units",
+      "target_waste_units"
+    ],
+    "test_positive_waste_rate": 0.075,
+    "test": {
+      "mae": 3.148789634038801,
+      "rmse": 7.009896674467342,
+      "r2": -0.0559882103160807
+    },
+    "training_mean_baseline": {
+      "mae": 2.843589743589744,
+      "rmse": 6.827363053115024,
+      "r2": -0.0017095900939847475
+    },
+    "zero_waste_baseline": {
+      "mae": 1.6666666666666667,
+      "rmse": 7.022187060390168,
+      "r2": -0.05969436485195767
+    }
+  },
+  "discount_recommendation": {
+    "model": "discount_recommendation",
+    "task": "simulated gross-margin regression for discount scenarios",
+    "data_caveat": "Training outcomes are simulated and are not evidence of real customer price response.",
+    "split": "80/20 grouped by batch_id so scenarios from one batch cannot cross partitions",
+    "train_rows": 8000,
+    "test_rows": 2000,
+    "train_batches": 1600,
+    "test_batches": 400,
+    "features": [
+      "product_id",
+      "days_to_expiry",
+      "quantity_remaining",
+      "discount_pct"
+    ],
+    "target": "estimated_gross_margin_simulated",
+    "test": {
+      "mae": 38.42799600836633,
+      "rmse": 102.77085827840244,
+      "r2": 0.9370908236068731
+    },
+    "training_mean_baseline": {
+      "mae": 270.17538030000003,
+      "rmse": 409.962340103045,
+      "r2": -0.0010642666595135353
+    }
+  }
+}
