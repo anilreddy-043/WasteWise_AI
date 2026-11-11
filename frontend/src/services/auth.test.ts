@@ -1,6 +1,14 @@
 import { afterEach, describe, expect, it, vi } from "vitest";
 import { deleteProduct } from "./business";
-import { clearAccessToken, requestAuthenticatedBlob, requestAuthenticatedJson, setAccessToken } from "./auth";
+import {
+  clearAccessToken,
+  getCurrentUser,
+  requestAuthenticatedBlob,
+  requestAuthenticatedJson,
+  setAccessToken,
+  signIn,
+  signOut,
+} from "./auth";
 import { getExpiryAlertCharts, getExpiryAlertFilters, listExpiryAlerts } from "./expiryAlerts";
 
 afterEach(() => {
@@ -10,6 +18,80 @@ afterEach(() => {
 });
 
 describe("authenticated API responses", () => {
+  it("sends sign-in credentials to the login API", async () => {
+    const fetchMock = vi.fn().mockResolvedValue(
+      new Response(JSON.stringify({
+        access_token: "issued-token",
+        token_type: "bearer",
+        expires_in: 3600,
+      }), {
+        status: 200,
+        headers: { "Content-Type": "application/json" },
+      }),
+    );
+    vi.stubGlobal("fetch", fetchMock);
+
+    await expect(signIn({ email: "user@example.com", password: "TestPass123!" })).resolves.toMatchObject({
+      access_token: "issued-token",
+      expires_in: 3600,
+    });
+
+    expect(fetchMock).toHaveBeenCalledWith(
+      "/api/v1/auth/login",
+      expect.objectContaining({
+        method: "POST",
+        body: JSON.stringify({ email: "user@example.com", password: "TestPass123!" }),
+      }),
+    );
+  });
+
+  it("uses the signed-in bearer token for the current-user API", async () => {
+    const fetchMock = vi.fn().mockResolvedValue(
+      new Response(JSON.stringify({
+        user_id: 7,
+        full_name: "Test User",
+        email: "user@example.com",
+        role: "viewer",
+      }), {
+        status: 200,
+        headers: { "Content-Type": "application/json" },
+      }),
+    );
+    vi.stubGlobal("fetch", fetchMock);
+    setAccessToken("session-token", 60);
+
+    await expect(getCurrentUser()).resolves.toMatchObject({
+      user_id: 7,
+      email: "user@example.com",
+    });
+
+    expect(fetchMock).toHaveBeenCalledWith(
+      "/api/v1/auth/me",
+      expect.objectContaining({ headers: expect.objectContaining({ Authorization: "Bearer session-token" }) }),
+    );
+  });
+
+  it("revokes the signed-in bearer session through the logout API", async () => {
+    const fetchMock = vi.fn().mockResolvedValue(
+      new Response(JSON.stringify({ status: "ok" }), {
+        status: 200,
+        headers: { "Content-Type": "application/json" },
+      }),
+    );
+    vi.stubGlobal("fetch", fetchMock);
+    setAccessToken("session-token", 60);
+
+    await expect(signOut()).resolves.toBeUndefined();
+
+    expect(fetchMock).toHaveBeenCalledWith(
+      "/api/v1/auth/logout",
+      expect.objectContaining({
+        method: "POST",
+        headers: expect.objectContaining({ Authorization: "Bearer session-token" }),
+      }),
+    );
+  });
+
   it("accepts 204 responses from delete endpoints", async () => {
     vi.stubGlobal("fetch", vi.fn().mockResolvedValue(new Response(null, { status: 204 })));
     setAccessToken("test-token", 60);

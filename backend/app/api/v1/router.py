@@ -3,7 +3,11 @@ import logging
 from datetime import date, datetime, timedelta, timezone
 from decimal import Decimal
 from typing import Literal
-
+"""from fastapi import (
+    APIRouter, Depends, File, HTTPException, Query,
+    Request, Response, UploadFile, status
+)
+"""
 from fastapi import APIRouter, Depends, File, HTTPException, Query, Request, Response, UploadFile, status
 from fastapi.responses import FileResponse
 from sqlalchemy import case, func, insert, inspect, select, update
@@ -172,8 +176,8 @@ def register(payload: RegisterRequest, db: Session = Depends(get_db)) -> dict[st
         }[payload.role],
         approval_status="approved",
     )
-    db.add(user)
     try:
+        db.add(user)
         db.flush()
         db.add(
             UserActivity(
@@ -189,10 +193,17 @@ def register(payload: RegisterRequest, db: Session = Depends(get_db)) -> dict[st
         )
         _record_activity(db, user.user_id, "user_registered", "user", user.user_id)
         db.commit()
+        db.refresh(user)
     except IntegrityError as exc:
         db.rollback()
         raise HTTPException(status_code=409, detail="An account with this email already exists.") from exc
-    db.refresh(user)
+    except SQLAlchemyError as exc:
+        db.rollback()
+        logger.exception("Registration database operation failed.")
+        raise HTTPException(
+            status_code=status.HTTP_503_SERVICE_UNAVAILABLE,
+            detail="Registration is temporarily unavailable. Please try again.",
+        ) from exc
     return {
         "user_id": user.user_id,
         "email": user.email,
